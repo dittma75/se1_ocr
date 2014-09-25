@@ -2,7 +2,7 @@ package ocr;
 import java.io.File;
 import net.sourceforge.tess4j.*;
 /**
- *
+ * Handle the Optical Character Recognition processing for FAA pdf files.
  * @author Kevin Dittmar
  */
 public class OCR
