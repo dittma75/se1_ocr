@@ -1,7 +1,8 @@
 package ocr;
 import java.io.BufferedWriter;
 import java.io.File;  
-import java.io.FileWriter;  
+import java.io.FileNotFoundException;  
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import net.sourceforge.tess4j.*;
@@ -15,26 +16,31 @@ public class OCR
         String property = System.getProperty("sun.arch.data.model");
         System.setProperty("jna.library.path", 
             "32".equals(property) ? "lib/win32-x86" : "lib/win32-x86-64");
-        File imageFile = new File("resources/ATL/00026AD.pdf");
-        Tesseract instance = Tesseract.getInstance();  // JNA Interface Mapping
-        //Tesseract1 instance = new Tesseract1(); // JNA Direct Mapping
-
-        try {
-            String result = instance.doOCR(imageFile);
-            result = result.replaceAll("^(\\w)", "");
-            formatOutput(result);
-            //System.out.println(result);
-        } catch (TesseractException e) {
-            System.err.println(e.getMessage());
+        for (String arg : args)
+        {
+            File imageFile = new File(arg);
+            Tesseract instance = Tesseract.getInstance();  // JNA Interface Mapping
+            //Tesseract1 instance = new Tesseract1(); // JNA Direct Mapping
+            try {
+                String result = instance.doOCR(imageFile);
+                result = result.replaceAll("^(\\w)", "");
+                formatOutput(result, arg);
+                //System.out.println(result);
+            } catch (TesseractException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
-    public static void formatOutput(String tess_out)
+    public static void formatOutput(String tess_out, String file_name)
     {
+        //Change the extension from .pdf to .xml.
+        file_name = file_name.replaceAll(".pdf", ".xml");
         Scanner scanner = new Scanner(tess_out);
         String next_line;
         boolean header_finished = false;
         boolean instructions_finished = false;
-        String xml_file = "<plate>\n<heading>\n";
+        String xml_file = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                          "<plate>\n<heading>\n";
         while (scanner.hasNextLine() && !header_finished)
         {
             next_line = scanner.nextLine();
@@ -73,7 +79,7 @@ public class OCR
         xml_file = xml_file.replaceAll("\n+", "\n");
         //Write XML file
         try {
-          File file = new File("file_name.xml");
+          File file = new File(file_name);
           BufferedWriter output = new BufferedWriter(new FileWriter(file));
           output.write(xml_file);
           output.close();
