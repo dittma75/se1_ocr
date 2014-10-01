@@ -43,10 +43,18 @@ public class OCR
         {
             next_line = scanner.nextLine();
             xml_file += next_line + "\n";
-            //Get diagram name
-            if (next_line.contains("DEPARTURE") && !next_line.contains("ROUTE"))
+            if (next_line.contains("NOTE:"))
             {
-                xml_attributes += "<diagram_name>" + next_line + "</diagram_name>\n";
+                xml_attributes += "<note>\n" + next_line + "\n";
+                next_line = scanner.nextLine();
+                xml_file += next_line + "\n";
+                while (!next_line.matches("^[A-Z :,.]*$"))
+                {
+                    xml_attributes += next_line + "\n";
+                    next_line = scanner.nextLine();
+                    xml_file += next_line + "\n";
+                }
+                xml_attributes += "</note>\n";
             }
             //Get diagram type
             if (next_line.contains("DIAGRAM"))
@@ -79,6 +87,55 @@ public class OCR
                     xml_attributes += next_line + "\n";
                 }
                 xml_attributes += "</special>\n";
+            }
+            if (next_line.matches(".*TAKE[OQ]FF.*"))
+            {
+                String tag = next_line.toLowerCase().replaceAll("[.:]", "");
+                xml_attributes += "<" + tag + ">\n";
+                //Get the first header line.
+                next_line = scanner.nextLine();
+                xml_file += next_line + "\n";
+                while (scanner.hasNextLine() && 
+                       (next_line.contains("NOTE:") || 
+                       !next_line.matches("[A-Z :,.]*")))
+                {
+                    //We have a header line right now.
+                    //Get all of the headers
+                    String[] headers;
+                    if (next_line.contains(","))
+                    {
+                        headers = next_line.split(":")[0].split(",");
+                    }
+                    else
+                    {
+                        headers = new String[1];
+                        headers[0] = next_line.split(":")[0];
+                    }
+                    //Get some of the info
+                    String info = next_line.split(":")[1];
+                    next_line = scanner.nextLine();
+                    xml_file += next_line + "\n";
+                    //We might not have all of our info for these headers.
+                    while (!next_line.contains(":") &&
+                           !next_line.matches("^[A-Z :,.]*$"))
+                    {
+                        info += next_line + "\n";
+                        next_line = scanner.nextLine();
+                        xml_file += next_line + "\n";
+                    }
+                    for (String header : headers)
+                    {
+                        xml_attributes += "<" + header + ">" +
+                                          info +
+                                          "</" + header + ">\n";
+                    }
+                }
+                xml_attributes += "</" + tag + ">\n";
+            }
+            //Get diagram name
+            if (next_line.contains("DEPARTURE") && !next_line.contains("ROUTE"))
+            {
+                xml_attributes += "<diagram_name>" + next_line + "</diagram_name>\n";
             }
         }
         //End raw processing tag and append filtered attributes.
