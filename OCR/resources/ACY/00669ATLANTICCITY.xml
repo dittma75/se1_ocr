@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plate>
-<heading>
+<raw>
 03 LOO 9|- UI VI-OZ dEIS 9L ‘ZPEIN
 . - :'.- ' 1 ._
 ATLANTIC CITY INTL (ACY)
 ATLANTIC CITY, NEW JERSEY
-</heading>
-<instructions>
 IACYI ACYI I334‘ s1-669 (FAA)
 ATLANTIC CITY ONE DEPARTURE
 ATIS
@@ -59,18 +57,26 @@ E3430 “'10” 2 |_ 124.6 327.125 |
 NOTE: Chart not to scale.
 V
 DEPARTURE ROUTE DESCRIPTION
-Fly runwa heading or as assigned For radar vectors to FiIed/ assigned route or
-depicted ix, maintain 2,000’ or assigned altitude. Expect clearance to Filed
-altitude ten minutes aFIer departure.
-</instructions>
-<special>
 SPECIAL INSTRUCTIONS: For appropriate departure control Frequency, see
-graphic. Use Frequency depicted within sector where your First NAVAID/ FIX/ Route
-is located or as assigned.
 ATLANTIC CITY, NEW JERSEY
 ATLANTIC aw INTL (ACY)
 ATLANTIC CITY ONE DEPARTURE
 (ACYt .ACY) 13346
 NE-2,18 SEP 20141016 OCT 2014
+</raw>
+<location>ATLANTIC CITY, NEW JERSEY</location>
+<diagram_name>ATLANTIC CITY ONE DEPARTURE</diagram_name>
+<route_description>
+DEPARTURE ROUTE DESCRIPTION
+Fly runwa heading or as assigned For radar vectors to FiIed/ assigned route or
+depicted ix, maintain 2,000’ or assigned altitude. Expect clearance to Filed
+altitude ten minutes aFIer departure.
+</route_description>
+<special>
+SPECIAL INSTRUCTIONS: For appropriate departure control Frequency, see
+graphic. Use Frequency depicted within sector where your First NAVAID/ FIX/ Route
+is located or as assigned.
 </special>
+<location>ATLANTIC CITY, NEW JERSEY</location>
+<diagram_name>ATLANTIC CITY ONE DEPARTURE</diagram_name>
 </plate>

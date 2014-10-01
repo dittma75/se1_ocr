@@ -1,7 +1,6 @@
 package ocr;
 import java.io.BufferedWriter;
 import java.io.File;  
-import java.io.FileNotFoundException;  
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -37,44 +36,56 @@ public class OCR
         file_name = file_name.replaceAll(".pdf", ".xml");
         Scanner scanner = new Scanner(tess_out);
         String next_line;
-        boolean header_finished = false;
-        boolean instructions_finished = false;
         String xml_file = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                          "<plate>\n<heading>\n";
-        while (scanner.hasNextLine() && !header_finished)
-        {
-            next_line = scanner.nextLine();
-            xml_file += next_line + "\n";
-            //Header is done if we see DEPARTURE, DIAGRAM, or CITY, STATE
-            if (next_line.contains("DEPARTURE") ||             
-                next_line.contains("DIAGRAM") ||
-                next_line.matches(".*[a-zA-Z]+, [a-zA-Z]+.*"))
-            {
-                header_finished = true;
-            }
-        }
-        xml_file += "</heading>\n<instructions>\n";
-        //We want to start off blank so we can save the last line for
-        //special instructions.
-        next_line = "";
-        while (scanner.hasNextLine() && !instructions_finished)
-        {
-            xml_file += next_line + "\n";
-            next_line = scanner.nextLine();
-            if (next_line.contains("CAUTION") ||
-                next_line.contains("SPECIAL"))
-            {
-                instructions_finished = true;
-            }
-        }
-        xml_file += "</instructions>\n<special>\n";
-        //This contains the special instructions piece found earlier.
-        xml_file += next_line + "\n";
+                          "<plate>\n<raw>\n";
+        String xml_attributes = "";
         while (scanner.hasNextLine())
         {
-            xml_file += scanner.nextLine() + "\n";
+            next_line = scanner.nextLine();
+            xml_file += next_line + "\n";
+            //Get diagram name
+            if (next_line.contains("DEPARTURE") && !next_line.contains("ROUTE"))
+            {
+                xml_attributes += "<diagram_name>" + next_line + "</diagram_name>\n";
+            }
+            //Get diagram type
+            if (next_line.contains("DIAGRAM"))
+            {
+                xml_attributes += "<type>" + next_line + "</type>\n";
+            }
+            //Get location.
+            if (next_line.matches(".*[A-Z]+, [A-Z]+.*"))
+            {
+                xml_attributes += "<location>" + next_line + "</location>\n";
+            }
+            //Get departure route descriptions.
+            if (next_line.contains("DEPARTURE ROUTE"))
+            {
+                xml_attributes += "<route_description>\n" + next_line + "\n";
+                while (scanner.hasNextLine() && !next_line.matches(".*[.!?]$"))
+                {
+                    next_line = scanner.nextLine();
+                    xml_attributes += next_line + "\n";
+                }
+                xml_attributes += "</route_description>\n";
+            }
+            //Get special instructions.
+            if (next_line.contains("CAUTION") || next_line.contains("SPECIAL"))
+            {
+                xml_attributes += "<special>\n" + next_line + "\n";
+                while (scanner.hasNextLine() && !next_line.matches(".*[.!?]$"))
+                {
+                    next_line = scanner.nextLine();
+                    xml_attributes += next_line + "\n";
+                }
+                xml_attributes += "</special>\n";
+            }
         }
-        xml_file += "</special>\n</plate>";
+        //End raw processing tag and append filtered attributes.
+        xml_file += "</raw>\n" + xml_attributes;
+        //End plate.
+        xml_file += "</plate>\n";
+        //Remove extra newlines and spaces.
         xml_file = xml_file.replaceAll("\n *", "\n");
         xml_file = xml_file.replaceAll("\n+", "\n");
         //Write XML file

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plate>
-<heading>
+<raw>
 TLANTIC CITY INTL (ACY)
 AL-669 (FAA) ATLANTIC CITY, NEW JERSEY
-</heading>
-<instructions>
 ZTFQPQRT DIAGRAM
 wEm kOO @2513 1mm m? mmz
 2mm. é wmn M016 5 DOA m?»
@@ -55,7 +53,8 @@ Nmahtwuawmhﬁw“
 _ 9m: _ 2.2m 2R9
 |_| Zbmomm _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ m=<
 QLBPORT DIAGRAM
-</instructions>
-<special>
-</special>
+</raw>
+<location>AL-669 (FAA) ATLANTIC CITY, NEW JERSEY</location>
+<type>ZTFQPQRT DIAGRAM</type>
+<type>QLBPORT DIAGRAM</type>
 </plate>
