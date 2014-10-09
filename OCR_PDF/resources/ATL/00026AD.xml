@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<airport>
+<location>ATLANTA, GEORGIA</location>
+<name>HARTSFIELD - JACKSON ATLANTA INTL(ATL)</name>
+<variation>4.4 W</variation>
+<08L>
+<type>runway</type>
+<angle>94.4</angle>
+<elevation>1015</elevation>
+</08L>
+<26R>
+<type>runway</type>
+<angle>274.4</angle>
+<elevation>990</elevation>
+</26R>
+<08R>
+<type>runway</type>
+<angle>94.4</angle>
+<elevation>1024</elevation>
+</08R>
+<26L>
+<type>runway</type>
+<angle>274.4</angle>
+<elevation>995</elevation>
+</26L>
+<09L>
+<type>runway</type>
+<angle>94.4</angle>
+<elevation>1019</elevation>
+</09L>
+<27R>
+<type>runway</type>
+<angle>274.4</angle>
+<elevation>977</elevation>
+</27R>
+<09R>
+<type>runway</type>
+<angle>94.4</angle>
+<elevation>1026</elevation>
+</09R>
+<27L>
+<type>runway</type>
+<angle>274.4</angle>
+<elevation>985</elevation>
+</27L>
+<10>
+<type>runway</type>
+<angle>94.4</angle>
+<elevation>1000</elevation>
+</10>
+<28>
+<type>runway</type>
+<angle>274.4</angle>
+<elevation>998</elevation>
+</28>
+</airport>

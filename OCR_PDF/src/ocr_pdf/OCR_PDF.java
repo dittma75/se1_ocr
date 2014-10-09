@@ -1,8 +1,10 @@
 package ocr_pdf;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Runtime.getRuntime;
 import java.util.ArrayList;
@@ -130,7 +132,7 @@ public class OCR_PDF
      * software.
      * @param argument the file argument passed to pdftotext
      */
-    public static void pdfToText(String argument)
+    public void pdfToText(String argument)
     {
         try
         {
@@ -330,22 +332,47 @@ public class OCR_PDF
         }
     }
     
-    public static void main(String args[])
+    public static void main(String[] args)
     {
-        OCR_PDF instance = new OCR_PDF();
-        //commented instance.methods work
-        instance.getRunways("resources/ATL/00026AD_reg.txt");
-        instance.parseAngleList("resources/ATL/00026AD.pdf");
-        instance.getAnglesAndElevs("resources/ATL/00026AD_reg.txt");
-        instance.getMiscData("resources/ATL/00026AD_reg.txt");
-        System.out.println("City, State: " + instance.city_state + "\n" +
-                            "Airport: " + instance.airport + "\n" +
-                            "Variation: " + instance.variation);
-        for (int i = 0; i < instance.angles.size(); i++)
+        for (String arg : args)
         {
-            System.out.println("Runway: " + instance.runways.get(i) + "\n" +
-                               "Angle: " + instance.angles.get(i) + "\n" +
-                               "Elev: " + instance.elevs.get(i));
+            OCR_PDF instance = new OCR_PDF();
+            String file_tail = args[0].split("\\.")[0];
+            String pdf_file_name = arg;
+            String xml_file_name = file_tail + ".xml";
+            String txt_file_name = file_tail + ".txt";
+            //Makes the text file that will be used by other parsers.
+            /*Be very careful of race conditions here.  pdftotext takes time
+             *to complete.
+             */
+            instance.pdfToText(pdf_file_name);
+            instance.parseAngleList(pdf_file_name);
+            instance.getRunways(txt_file_name);           
+            instance.getAnglesAndElevs(txt_file_name);
+            instance.getMiscData(txt_file_name);
+            String xml_file = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            xml_file += "<airport>\n" +
+                        "<location>" + instance.city_state + "</location>\n" +
+                        "<name>" + instance.airport + "</name>\n" +
+                        "<variation>" + instance.variation + "</variation>\n";
+            for (int i = 0; i < instance.angles.size(); i++)
+            {
+                xml_file += "<" + instance.runways.get(i) + ">\n" +
+                            "<type>runway</type>\n" +
+                            "<angle>" + instance.angles.get(i) + "</angle>\n" +
+                            "<elevation>" + instance.elevs.get(i) + "</elevation>\n" +
+                            "</" + instance.runways.get(i) + ">\n";
+            }
+            xml_file += "</airport>";
+            //Write XML file
+            try {
+              File file = new File(xml_file_name);
+              BufferedWriter output = new BufferedWriter(new FileWriter(file));
+              output.write(xml_file);
+              output.close();
+            } catch ( IOException e ) {
+               e.printStackTrace();
+            }
         }
     }
 }
