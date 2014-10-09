@@ -1,0 +1,17 @@
+094.4/1015
+274.4/990
+094.4/1024
+274.4/995
+094.4/1019
+094.4/1026
+274.4/977
+274.4/985
+094.4/1000
+274.4/998
+
+REGEX for getting RWYs (remove "s):  "[\n\r ]+RWY [0-9]+[RL]*-[0-9]+[RL]*[\n\r ]+"
+FIELD ELEV is sometimes used.  Remember its index in case we're short.
+This numbering is in order (kind of):
+    -When reading by angle, they are in order by RWY name
+     (8L,8R,9L,9R,10)
+    -For Dallas, it appears that there is a slight ordering issue.
