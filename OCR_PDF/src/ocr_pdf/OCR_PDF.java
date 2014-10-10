@@ -248,7 +248,7 @@ public class OCR_PDF
         }
         catch (FileNotFoundException ex)
         {
-            Logger.getLogger(OCR_PDF.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OCR_PDF.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
     
@@ -328,7 +328,7 @@ public class OCR_PDF
         }
         catch (FileNotFoundException ex)
         {
-            Logger.getLogger(OCR_PDF.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OCR_PDF.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
     
@@ -358,10 +358,13 @@ public class OCR_PDF
             for (int i = 0; i < instance.angles.size(); i++)
             {
                 xml_file += "<path>" + "\n" + 
-                            "<path_name>" + instance.runways.get(i) + "</path_name>\n" +
+                            "<path_name>" + instance.runways.get(i) + 
+                            "</path_name>\n" +
                             "<path_type>runway</path_type>\n" +
-                            "<heading>" + instance.angles.get(i) + "</heading>\n" +
-                            "<elevation>" + instance.elevs.get(i) + "</elevation>\n" +
+                            "<heading>" + instance.angles.get(i) + 
+                            "</heading>\n" +
+                            "<elevation>" + instance.elevs.get(i) +
+                            "</elevation>\n" +
                             "</path>\n";
             }
             xml_file += "</airport>";
