@@ -337,7 +337,7 @@ public class OCR_PDF
         for (String arg : args)
         {
             OCR_PDF instance = new OCR_PDF();
-            String file_tail = args[0].split("\\.")[0];
+            String file_tail = arg.split("\\.")[0];
             String pdf_file_name = arg;
             String xml_file_name = file_tail + ".xml";
             String txt_file_name = file_tail + ".txt";
