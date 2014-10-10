@@ -357,11 +357,12 @@ public class OCR_PDF
                         "<variation>" + instance.variation + "</variation>\n";
             for (int i = 0; i < instance.angles.size(); i++)
             {
-                xml_file += "<" + instance.runways.get(i) + ">\n" +
-                            "<type>runway</type>\n" +
-                            "<angle>" + instance.angles.get(i) + "</angle>\n" +
+                xml_file += "<path>" + "\n" + 
+                            "<path_name>" + instance.runways.get(i) + "</path_name>\n" +
+                            "<path_type>runway</path_type>\n" +
+                            "<heading>" + instance.angles.get(i) + "</heading>\n" +
                             "<elevation>" + instance.elevs.get(i) + "</elevation>\n" +
-                            "</" + instance.runways.get(i) + ">\n";
+                            "</path>\n";
             }
             xml_file += "</airport>";
             //Write XML file
