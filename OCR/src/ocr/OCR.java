@@ -20,7 +20,7 @@ public class OCR
             File imageFile = new File(arg);
             Tesseract instance = Tesseract.getInstance();  // JNA Interface Mapping
             //Tesseract1 instance = new Tesseract1(); // JNA Direct Mapping
-            try {
+            try { 
                 String result = instance.doOCR(imageFile);
                 result = result.replaceAll("^(\\w)", "");
                 formatOutput(result, arg);
